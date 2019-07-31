@@ -1,0 +1,11 @@
+#!/bin/bash
+OPTIONS_DIR="$SNAP_DATA/options"
+IPADDR=`cat $OPTIONS_DIR/ipaddress`
+PORTNUM=`cat $OPTIONS_DIR/port`
+
+echo "Using IP Address: $IPADDR"
+echo "Using port number: $PORTNUM"
+echo "\nTo change these use sudo snap set cloudflared [address|port]=nnn"
+
+$SNAP/bin/cloudflared proxy-dns --address $IPADDR --port $PORTNUM
+ 

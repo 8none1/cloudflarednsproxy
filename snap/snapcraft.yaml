@@ -1,0 +1,32 @@
+name: cloudflaredoh
+version: "master"
+summary: DNS over HTTPS proxy to Cloudflare's DNS servers
+description: |
+  Contains the command-line client and its libraries for proxy-dns,
+  that proxies DNS requests to Cloudflare's server over HTTPS.
+
+confinement: strict
+base: core18
+
+parts:
+  cloudflared:
+    plugin: go
+    go-importpath: github.com/cloudflare/cloudflared
+    source: https://github.com/cloudflare/cloudflared.git
+    build-packages:
+    - gcc
+  launcher:
+    plugin: dump
+    source: snap/local
+    organize:
+      '*': bin/
+
+apps:
+  dns-proxy:
+    command: bin/launcher
+    daemon: simple
+    plugs:
+      - network
+      - network-bind
+
+
